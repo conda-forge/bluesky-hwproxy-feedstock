@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/bluesky-hwproxy-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/bluesky-hwproxy-{{ version }}.tar.gz
   sha256: 2ae541df7d7a2386afcc3642a44a73bddb2ab3c04ede211f4fb7ea2aea0ffe19
 
 build:
@@ -15,15 +15,15 @@ build:
     - start-hwproxy-server = bluesky_hwproxy.hwproxy_server:main
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.7
+    - python {{ python_min }}
     - flit-core
     - pip
   run:
-    - python >=3.7
+    - python >={{ python_min }}
     - rich
     - click
     - bluesky-queueserver
@@ -39,6 +39,7 @@ test:
     - start-hwproxy-server --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: Proxy for reading bluesky hardware over ZMQ interface.
